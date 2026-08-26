@@ -22,13 +22,18 @@ module SolargraphHelpers
     yield pin if block_given?
   end
 
+  # @param return_type [String, Array<String>] one accepted inferred
+  #   type, or several - the same Solargraph feature can be tested
+  #   against a consumer that has and hasn't merged a given
+  #   inference improvement yet, and the improved value shouldn't
+  #   fail the older acceptable one.
   def assert_public_instance_method_inferred_type(map, query, return_type)
     pin = find_pin(query, map)
     expect(pin).to_not be_nil, "Method #{query} not found"
     expect(pin.scope).to eq(:instance)
     inferred_return_type = pin.probe(api_map).simplify_literals.to_s
 
-    expect(inferred_return_type).to eq(return_type)
+    expect(Array(return_type)).to include(inferred_return_type)
 
     yield pin if block_given?
   end
