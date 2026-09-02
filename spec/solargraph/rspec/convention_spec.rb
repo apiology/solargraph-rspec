@@ -421,7 +421,7 @@ RSpec.describe Solargraph::Rspec::Convention do
     end
 
     it 'infers type for some_array' do
-      load_and_assert_type('let(:some_array) { [1, 2, 3] }', 'some_array', 'Array')
+      load_and_assert_type('let(:some_array) { [1, 2, 3] }', 'some_array', ['Array', 'Array<Integer>'])
     end
 
     it 'infers type for some_hash' do
@@ -533,7 +533,7 @@ RSpec.describe Solargraph::Rspec::Convention do
       assert_public_instance_method_inferred_type(
         api_map,
         'RSpec::ExampleGroups::TestSomeNamespaceTransaction#some_array',
-        'Array'
+        ['Array', 'Array<Integer>']
       )
       assert_public_instance_method_inferred_type(
         api_map,
